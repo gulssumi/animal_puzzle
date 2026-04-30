@@ -18,11 +18,10 @@ interface RankResult {
 
 export default function GamePage() {
   const { t, locale } = useI18n();
-  const [tab,         setTab]         = useState<Tab>('play');
+  const [tab,          setTab]          = useState<Tab>('play');
   const [gameOverScore, setGameOverScore] = useState<number | null>(null);
-  const [rankResult,  setRankResult]  = useState<RankResult | null>(null);
+  const [rankResult,   setRankResult]   = useState<RankResult | null>(null);
 
-  // Phaser CustomEvent 수신
   useEffect(() => {
     const handler = (e: Event) => {
       const score = (e as CustomEvent<{ score: number }>).detail.score;
@@ -36,7 +35,7 @@ export default function GamePage() {
   const handleSubmitted = (nickname: string, ranks: Record<string, number>) => {
     setGameOverScore(null);
     setRankResult({ nickname, ranks });
-    setTab('records');   // 자동으로 기록 탭으로 이동
+    setTab('records');
   };
 
   const handleSkip = () => {
@@ -48,17 +47,17 @@ export default function GamePage() {
 
   return (
     <main
-      className="min-h-screen flex flex-col items-center justify-center gap-5 px-4 py-8"
+      className="min-h-screen flex flex-col items-center justify-center gap-4 px-3 py-6 sm:gap-5 sm:px-4 sm:py-8"
       style={{ background: 'linear-gradient(135deg, #1a0533 0%, #0d1b4b 40%, #0a2e1a 100%)' }}
     >
       {/* 언어 스위처 */}
-      <div className="fixed top-4 right-4 z-50">
+      <div className="fixed top-3 right-3 z-50 sm:top-4 sm:right-4">
         <LanguageSwitcher />
       </div>
 
       {/* 타이틀 */}
       <div className="text-center">
-        <h1 className="text-4xl font-bold text-white tracking-widest mb-1">
+        <h1 className="text-2xl sm:text-4xl font-bold text-white tracking-widest mb-1">
           🐾 ANIMAL<span className="text-yellow-300"> PUZZLE</span>
         </h1>
         <p className="text-xs text-white/40">{t('gameSubtitle')}</p>
@@ -70,7 +69,7 @@ export default function GamePage() {
           <button
             key={key}
             onClick={() => setTab(key)}
-            className={`px-6 py-2 text-sm font-bold transition-colors ${
+            className={`px-5 py-2 text-sm font-bold transition-colors sm:px-6 ${
               tab === key
                 ? 'bg-yellow-400 text-[#1a0533]'
                 : 'bg-white/5 text-white/50 hover:bg-white/10'
@@ -84,21 +83,23 @@ export default function GamePage() {
       {/* 컨텐츠 */}
       {tab === 'play' ? (
         <>
+          {/* 게임 캔버스 — 모바일에서 전체 너비, 데스크탑은 최대 700px */}
           <div
-            className="rounded-2xl overflow-hidden shadow-2xl"
+            className="w-full max-w-[700px] rounded-2xl overflow-hidden shadow-2xl"
             style={{
-              background: 'rgba(255,255,255,0.05)',
+              background:    'rgba(255,255,255,0.05)',
               backdropFilter: 'blur(12px)',
-              border: '1px solid rgba(255,255,255,0.1)',
+              border:        '1px solid rgba(255,255,255,0.1)',
             }}
           >
             <GameCanvas />
           </div>
-          <p className="text-xs text-white/30">{t('hint')}</p>
+
+          <p className="text-xs text-white/30 text-center px-4">{t('hint')}</p>
 
           {/* 등록 완료 후 순위 뱃지 */}
           {rankResult && (
-            <div className="flex items-center gap-3 px-5 py-3 rounded-xl bg-yellow-400/10 border border-yellow-400/20 text-sm">
+            <div className="flex flex-wrap items-center justify-center gap-2 px-4 py-3 rounded-xl bg-yellow-400/10 border border-yellow-400/20 text-sm">
               <span className="text-yellow-400 font-bold">{rankResult.nickname}</span>
               <span className="text-white/50">|</span>
               <span className="text-white/70">
@@ -110,7 +111,7 @@ export default function GamePage() {
               </span>
               <button
                 onClick={() => setTab('records')}
-                className="ml-2 text-yellow-400 text-xs underline"
+                className="ml-1 text-yellow-400 text-xs underline"
               >
                 {locale === 'ko' ? '기록 보기' : locale === 'ja' ? '記録を見る' : 'View Records'}
               </button>
@@ -119,11 +120,11 @@ export default function GamePage() {
         </>
       ) : (
         <div
-          className="w-full max-w-lg rounded-2xl p-5 shadow-2xl"
+          className="w-full max-w-lg rounded-2xl p-4 sm:p-5 shadow-2xl"
           style={{
-            background: 'rgba(255,255,255,0.05)',
+            background:    'rgba(255,255,255,0.05)',
             backdropFilter: 'blur(12px)',
-            border: '1px solid rgba(255,255,255,0.1)',
+            border:        '1px solid rgba(255,255,255,0.1)',
           }}
         >
           <Leaderboard highlightScore={rankResult ? undefined : undefined} />

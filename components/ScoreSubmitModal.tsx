@@ -76,7 +76,6 @@ export default function ScoreSubmitModal({ score, onSubmitted, onSkip }: Props) 
           value={nick}
           onChange={e => setNick(e.target.value)}
           onKeyDown={e => e.key === 'Enter' && !loading && handleSubmit()}
-          autoFocus
         />
 
         {error && <p className="text-red-400 text-sm text-center">{error}</p>}
