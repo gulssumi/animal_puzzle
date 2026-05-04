@@ -29,14 +29,16 @@ export default function RootLayout({
       lang="en"
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
-      <body className="min-h-full flex flex-col">
-        <I18nProvider>{children}</I18nProvider>
+      <head>
         <Script
           async
           src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3291789386215765"
           crossOrigin="anonymous"
-          strategy="afterInteractive"
+          strategy="beforeInteractive"
         />
+      </head>
+      <body className="min-h-full flex flex-col">
+        <I18nProvider>{children}</I18nProvider>
       </body>
     </html>
   );
