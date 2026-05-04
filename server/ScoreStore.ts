@@ -11,7 +11,7 @@ export interface ScoreEntry {
 
 export type Period = 'world' | 'monthly' | 'daily' | 'hourly';
 
-const DATA_FILE = join(__dirname, 'scores.json');
+const DATA_FILE = process.env.DATA_FILE ?? join('/tmp', 'scores.json');
 
 function load(): ScoreEntry[] {
   if (!existsSync(DATA_FILE)) return [];

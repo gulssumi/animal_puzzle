@@ -9,7 +9,13 @@ const CLIENT_ORIGIN = process.env.CLIENT_ORIGIN ?? 'http://localhost:3010';
 const app  = express();
 const http = createServer(app);
 
-app.use(cors({ origin: CLIENT_ORIGIN }));
+const allowedOrigins = CLIENT_ORIGIN.split(',').map(o => o.trim());
+app.use(cors({
+  origin: (origin, cb) => {
+    if (!origin || allowedOrigins.includes(origin)) cb(null, true);
+    else cb(new Error(`CORS: ${origin} not allowed`));
+  },
+}));
 app.use(express.json());
 
 // ── Health ────────────────────────────────────
