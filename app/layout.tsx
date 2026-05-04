@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import { I18nProvider } from "@/lib/i18n";
+import Script from "next/script";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -30,6 +31,12 @@ export default function RootLayout({
     >
       <body className="min-h-full flex flex-col">
         <I18nProvider>{children}</I18nProvider>
+        <Script
+          async
+          src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3291789386215765"
+          crossOrigin="anonymous"
+          strategy="afterInteractive"
+        />
       </body>
     </html>
   );
